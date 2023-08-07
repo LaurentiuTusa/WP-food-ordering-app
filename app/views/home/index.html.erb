@@ -10,7 +10,7 @@
         <!-- filters -->
         <div id="filter-div">
             <%= form_tag apply_filters_path, method: :get do %>
-                <%= select_tag(:category, options_for_select([["All Categories", "All"],["Pizza",1],["Pasta",2],["Salad",3],["Soup",4]], params[:category]), id: "category") %>
+                <%= select_tag(:category, options_for_select([["All Categories", ""],["Pizza",1],["Pasta",2],["Salad",3],["Soup",4]], params[:category]), id: "category") %>
                 <%= select_tag(:vegetarian, options_for_select([["Vegetarian: No", false], ["Vegetarian: Yes", true]], params[:vegetarian]), id: "vegetarian") %>
                 <%= select_tag('price-sorting', options_for_select([["Ascending", "asc"], ["Descending", "desc"]], params['price-sorting']), id: "price-sorting") %>
 

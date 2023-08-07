@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   root "home#index"
-  get 'about', to: 'about#index'
+  resources :about, only: :index
   get 'contact', to: 'contact#index'
   get 'service', to: 'service#index'
   get 'blog', to: 'blog#index'

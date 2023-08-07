@@ -15,10 +15,6 @@ body {
     background-color: rgb(255, 255, 255);
 }
 
-/* * {
-    border: 1px solid red;
-} */
-
 h1 {
     text-align: center;
     font-size: 35px;
@@ -32,6 +28,16 @@ header {
     position: relative;
     text-align: center;
     color: white;
+
+    hr {
+        position: absolute;
+        top: 24%;
+        left: 50%;
+        width: 500px;
+        height: 3px;
+        background-color: white;
+        transform: translate(-50%, -50%);
+    }
 }
 
 #ord-txt {
@@ -62,17 +68,6 @@ header {
     text-transform: uppercase;
     font-size: medium;
     text-shadow: $shadow;
-}
-
-#sep1 {
-    position: absolute;
-    top: 24%;
-    left: 50%;
-    width: 500px;
-    height: 3px;
-    background-color: white;
-    transform: translate(-50%, -50%);
-    
 }
 
 .menu {
@@ -123,7 +118,6 @@ header {
     font-size: 18px;
     font-family: 'Times New Roman', Times, serif;
     text-shadow: $shadow;
-    
 }
 
 #filter-div {
@@ -350,4 +344,3 @@ header {
         }
     }
 }
-  

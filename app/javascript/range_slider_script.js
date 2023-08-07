@@ -9,17 +9,9 @@ document.addEventListener("DOMContentLoaded", function () {
         const params = {};
         const searchParams = new URLSearchParams(url.split("?")[1]);
         for (let param of searchParams.entries()) {
-        params[param[0]] = param[1];
+            params[param[0]] = param[1];
         }
         return params;
-    }
-
-    // Function to update the URL query parameters with selected price range
-    function updateURLParams(minPrice, maxPrice) {
-        const queryParams = new URLSearchParams(window.location.search);
-        queryParams.set("min_price", minPrice);
-        queryParams.set("max_price", maxPrice);
-        window.history.replaceState({}, "", "?" + queryParams.toString());
     }
 
     priceInput.forEach(input =>{
@@ -91,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function () {
             //Dynamic filtering filterProductsByPrice(minPrice, maxPrice);
         
         // Call the function to update URL query parameters with the new price range
-        updateURLParams(minPrice, maxPrice);
+        //updateURLParams(minPrice, maxPrice);
     }
     
     rangeInput.forEach(input => {
