@@ -9,4 +9,5 @@ Rails.application.routes.draw do
   get 'apply_filters', to: 'home#apply_filters', as: :apply_filters
 
   get '/signup', to: 'users#new'
+  resources :users
 end
