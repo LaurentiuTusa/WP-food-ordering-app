@@ -53,6 +53,7 @@ header {
         height: 3px;
         background-color: white;
         transform: translate(-50%, -50%);
+        opacity: 1;
     }
 }
 
@@ -89,7 +90,7 @@ header {
 .menu {
     position: absolute;
     top: 5%;
-    left: 70%;
+    left: 65%;
     list-style-type: none;
     margin: 0;
     padding: 0;
