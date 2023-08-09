@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <%= stylesheet_link_tag 'style', media: 'all', 'data-turbolinks-track': 'reload' %>
+        <title>Food shop</title>
+    </head>
+
+    <!-- body -->
+    <body>
+        <!-- filters -->
+        <div id="filter-div">
+            <%= form_tag apply_filters_path, method: :get do %>
+                <%= select_tag(:category, options_for_select([["All Categories", ""],["Pizza",1],["Pasta",2],["Salad",3],["Soup",4]], params[:category]), id: "category") %>
+                <%= select_tag(:vegetarian, options_for_select([["Vegetarian: No", false], ["Vegetarian: Yes", true]], params[:vegetarian]), id: "vegetarian") %>
+                <%= select_tag('price-sorting', options_for_select([["Ascending", "asc"], ["Descending", "desc"]], params['price-sorting']), id: "price-sorting") %>
+
+                <!-- price range -->
+                <div class="wrapper">
+                    <div class="price-input">
+                        <div class="field">
+                            <span>Min</span>
+                            <input type="number" class="input-min" name="min_price" value="<%= params[:min_price] || 10 %>">
+                        </div>
+                    </div>
+
+                    <div class="middle">
+                        <div class="slider">
+                            <div class="progress"></div>
+                        </div>
+                        <div class="range-input">
+                            <input type="range" class="range-min" name="min_price" min="0" max="50" value="<%= params[:min_price] || 10 %>" step="1">
+                            <input type="range" class="range-max" name="max_price" min="0" max="50" value="<%= params[:max_price] || 30 %>" step="1">
+                        </div>
+                    </div>
+
+                    <div class="price-input">
+                        <div class="field">
+                            <input type="number" class="input-max" name="max_price" value="<%= params[:max_price] || 30 %>">
+                            <span>Max</span>
+                        </div>
+                    </div>
+                </div>
+                <%= submit_tag "Apply Filters" %>
+            <% end %>
+        </div>
+
+        <!-- products display -->
+        <div class="products">
+            <% @products.each do |product| %>
+                <div class="individual-product">
+                    <img src="<%= product.image.url %>" alt="<%= product.title %>">
+                    <h3 class="product-name"><%= product.title %></h3>
+                    <h4 class="product-category"><%= product.category.category_name %></h4>
+                    <h4 class="product-description"><%= product.description %></h4>
+                    <h4 class="product-price"><%= product.price %> $</h4>
+                </div>
+            <% end %>
+        </div>
+    </body>
+</html>
