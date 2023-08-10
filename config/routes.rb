@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  
   get 'users/new'
   root "home#index"
   resources :about, only: :index
@@ -13,5 +14,7 @@ Rails.application.routes.draw do
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
   get '/logout', to: 'sessions#destroy'
+
+  get '/add_to_cart/:product_id', to: 'orders#add_to_cart', as: :add_to_cart
   resources :users
 end

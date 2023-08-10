@@ -53,6 +53,9 @@
                     <h4 class="product-category"><%= product.category.category_name %></h4>
                     <h4 class="product-description"><%= product.description %></h4>
                     <h4 class="product-price"><%= product.price %> $</h4>
+                    <% if logged_in? %>
+                        <%= link_to "Add to Cart", add_to_cart_path(product_id: product.id), method: :post, class: "btn btn-primary add_to_cart_button" %>
+                    <% end %>
                 </div>
             <% end %>
         </div>
