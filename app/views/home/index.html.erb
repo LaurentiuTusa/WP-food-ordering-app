@@ -42,6 +42,10 @@
                 </div>
                 <%= submit_tag "Apply Filters" %>
             <% end %>
+
+            <% if logged_in? %>
+                <%= link_to "Create Order", create_order_path, method: :post, class: "btn btn-primary create_order_button" %>
+            <% end %>
         </div>
 
         <!-- products display -->
@@ -54,7 +58,8 @@
                     <h4 class="product-description"><%= product.description %></h4>
                     <h4 class="product-price"><%= product.price %> $</h4>
                     <% if logged_in? %>
-                        <%= link_to "Add to Cart", add_to_cart_path(product_id: product.id), method: :post, class: "btn btn-primary add_to_cart_button" %>
+                        <% filtered_params = @filter_params&.compact || {} %>
+                        <%= link_to "Add to Cart", add_to_cart_path(product_id: product.id, **filtered_params), method: :post, class: "btn btn-primary add_to_cart_button" %>
                     <% end %>
                 </div>
             <% end %>
