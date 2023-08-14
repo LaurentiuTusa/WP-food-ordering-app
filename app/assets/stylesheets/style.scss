@@ -1,7 +1,23 @@
 $shadow: 2px 2px 4px #000000;
+$state-danger-text: #a94442;
 
 @mixin rounded-corners($radius) {
     border-radius: $radius;
+}
+
+@mixin box_sizing {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+/* miscellaneous */
+.debug_dump {
+    clear: both;
+    float: left;
+    width: 100%;
+    margin-top: 45px;
+    @include box_sizing;
 }
 
 #img-background {
@@ -37,6 +53,7 @@ header {
         height: 3px;
         background-color: white;
         transform: translate(-50%, -50%);
+        opacity: 1;
     }
 }
 
@@ -73,7 +90,7 @@ header {
 .menu {
     position: absolute;
     top: 5%;
-    left: 70%;
+    left: 65%;
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -226,7 +243,8 @@ header {
     display: inline-block;
     width: 200px;
     height: 200px;
-    margin: 20px;
+    margin: 25px;
+    margin-bottom: 40px;
     box-shadow: $shadow;
   
     &:hover {
@@ -262,6 +280,25 @@ header {
             color: rgb(232, 142, 6);
             margin-top: 0;
             margin-bottom: 0;
+        }
+    }
+
+    .add_to_cart_button {
+        width: 100px;
+        height: 30px;
+        @include rounded-corners(5px);
+        border: 1px solid rgb(79, 55, 0);
+        font-size: 15px;
+        font-family: 'Times New Roman', Times, serif;
+        color: rgb(0, 0, 0);
+        display: inline-block;
+        margin: 0 20px;
+        margin-left: 50px;
+        background-color: rgb(235, 211, 34);
+        display: inline-block;
+    
+        &:hover {
+            background-color: rgb(207, 169, 0);
         }
     }
 }
@@ -343,4 +380,89 @@ header {
             box-shadow: $shadow;
         }
     }
+}
+
+/* sidebar */
+aside {
+    section.user_info {
+        margin-top: 20px;
+    }
+
+    section {
+        padding: 10px 0;
+        margin-top: 20px;
+
+        &:first-child {
+            border: 0;
+            padding-top: 0;
+        }
+
+        span {
+            display: block;
+            margin-bottom: 3px;
+            line-height: 1;
+        }
+
+        h1 {
+            font-size: 1.4em;
+            text-align: left;
+            letter-spacing: -1px;
+            margin-bottom: 3px;
+            margin-top: 0px;
+        }
+    }
+}
+
+.gravatar {
+    float: left;
+    margin-right: 10px;
+}
+
+.gravatar_edit {
+    margin-top: 15px;
+}
+
+/* forms */
+.col-md-6.col-md-offset-3 input, textarea, select, .uneditable-input {
+    border: 1px solid #bbb;
+    width: 100%;
+    margin-bottom: 15px;
+    @include box_sizing;
+
+}
+
+.col-md-6.col-md-offset-3 input {
+    height: auto !important;
+}
+
+#error_explanation {
+    color: red;
+
+    ul {
+        color: red;
+        margin: 0 0 30px 0;
+    }
+}
+
+.field_with_errors {
+    @extend .has-error !optional;
+
+    .form-control {
+        color: $state-danger-text;
+    }  
+}
+
+.checkbox {
+    margin-top: -10px;
+    margin-bottom: 10px;
+
+    span {
+        margin-left: 20px;
+        font-weight: normal;
+    }
+}
+
+#session_remember_me {
+    width: auto;
+    margin-left: 0;
 }
