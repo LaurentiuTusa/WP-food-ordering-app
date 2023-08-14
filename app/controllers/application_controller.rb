@@ -1,4 +1,4 @@
 class ApplicationController < ActionController::Base
-    include ActiveStorage::SetCurrent
-    include SessionsHelper
+  include ActiveStorage::SetCurrent
+  include SessionsHelper
 end

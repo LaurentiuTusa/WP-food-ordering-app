@@ -1,11 +1,15 @@
 class OrdersController < ApplicationController
-  def add_to_cart
-    puts "=================================="
-    puts "params: #{params}"
-    puts params[:product_id]
-    puts current_user.id
-    puts "=================================="
+  include OrdersHelper
 
+  before_action :authenticate_user!, only: :add_to_cart
+
+  def authenticate_user!
+    unless current_user
+      redirect_to login_path, alert: 'You need to log in to add products to the cart'
+    end
+  end
+
+  def add_to_cart
     filter_params = {
       category: params[:category],
       vegetarian: params[:vegetarian],
@@ -37,22 +41,6 @@ class OrdersController < ApplicationController
     end
     # redirect to root_path but with the last selected filters
     redirect_to root_path(filter_params), notice: 'Product added to cart'
-  end
-
-  def get_cart_products
-    # find the order with status "isCart" true and user_id current_user.id
-    @order = Order.find_by(user_id: current_user.id, isCart: true)
-    # find all the order_items with order_id the id of the order found above
-    @order_items = OrderItem.where(order_id: @order.id)
-    @pruducts_from_cart = []
-    # for each order_item found above, find the product with id the product_id of the order_item
-    @order_items.each do |order_item|
-      # if the found product has quanity > 1, then add it to the array @pruducts_from_cart as many times as its quantity
-      order_item.quantity.times do
-        @pruducts_from_cart << Product.find(order_item.product_id)
-      end
-    end
-    return @pruducts_from_cart
   end
 
   def convert_cart_to_order
