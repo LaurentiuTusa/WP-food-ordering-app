@@ -62,4 +62,23 @@ RSpec.describe UsersController, type: :controller do
       end
     end
   end
+
+  let (:user) { User.find(1) }
+  let (:other_user) { User.find(2) }
+  
+  describe '#correct_user' do
+    it 'redirects to root_url if current user is not the correct user' do
+      log_in(user)  # Assuming you have a log_in helper method
+      get :edit, params: { id: other_user.id }  # Replace with the actual action and parameters
+
+      expect(response).to redirect_to(root_url)
+    end
+
+    it 'does not redirect if current user is the correct user' do
+      log_in(user)
+      get :edit, params: { id: user.id }
+
+      expect(response).not_to redirect_to(root_url)
+    end
+  end
 end
