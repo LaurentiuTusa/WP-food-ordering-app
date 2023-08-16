@@ -17,4 +17,5 @@ Rails.application.routes.draw do
   get '/add_to_cart/:product_id', to: 'orders#add_to_cart', as: :add_to_cart
   get '/create_order', to: 'orders#convert_cart_to_order', as: :create_order
   resources :users
+  resources :account_activations, only: [:edit]
 end
