@@ -16,6 +16,24 @@ class AdminController < ApplicationController
   end
 
   def view_products
+    @products = Product.paginate(page: params[:page])
+  end
+
+  def create_product
+  end
+
+  def edit_product
+    @product = Product.find(params[:id])
+  end
+
+  def update_product
+    @product = Product.find(params[:id])
+    if @product.update(product_params)
+      flash[:success] = "Product updated"
+      redirect_to view_products_path
+    else
+      render 'edit_product'
+    end
   end
 
   def destroy_product
@@ -44,6 +62,10 @@ class AdminController < ApplicationController
   # Confirms an admin user.
   def admin_user
     redirect_to(root_url) unless current_user.admin?
+  end
+
+  def product_params
+    params.require(:product).permit(:title, :description, :price, :vegetarian, :category_id)
   end
 
 end

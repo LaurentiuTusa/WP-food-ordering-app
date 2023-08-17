@@ -1,0 +1,20 @@
+<%= form_with(model: @product, url: update_product_path(@product), local: true, method: :patch) do |f| %>
+  <%= render 'shared/product_error_messages' %>
+
+  <%= f.label :title %>
+  <%= f.text_field :title, class: 'form-control' %>
+
+  <%= f.label :description %>
+  <%= f.text_area :description, class: 'form-control' %>
+
+  <%= f.label :price %>
+  <%= f.number_field :price, class: 'form-control' %>
+
+  <%= f.label :vegetarian %>
+  <%= f.check_box :vegetarian, class: 'form-check-input' %>
+
+  <%= f.label :category_id, "form-control" %>
+  <%= f.collection_select :category_id, Category.all, :id, :category_name, { prompt: "Select a category" }, class: 'form-select' %>
+
+  <%= f.submit "Save changes", class: "btn btn-primary" %>
+<% end %>
