@@ -18,4 +18,11 @@ Rails.application.routes.draw do
   get '/create_order', to: 'orders#convert_cart_to_order', as: :create_order
   resources :users
   resources :account_activations, only: [:edit]
+
+  get 'admin/view_orders', to: 'admin#view_orders', as: :view_orders
+  delete 'admin/destroy_order/:id', to: 'admin#destroy_order', as: :destroy_order
+  post 'admin/mark_order_as_handled/:id', to: 'admin#mark_order_as_handled', as: :mark_order_as_handled
+  get 'admin/view_users', to: 'admin#view_users', as: :view_users
+  get 'admin/view_profile/:id', to: 'admin#view_profile', as: :view_profile
+  delete 'admin/destroy_user/:id', to: 'admin#destroy_user', as: :destroy_user
 end

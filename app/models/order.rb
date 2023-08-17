@@ -2,6 +2,7 @@ class Order < ApplicationRecord
   belongs_to :user
   has_many :order_items
   has_many :products, through: :order_items
+  enum status: { unhandled: 0, handled: 1 }
 
   validate :one_cart_order_per_user, on: :create, if: :isCart
 

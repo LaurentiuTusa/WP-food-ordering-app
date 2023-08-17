@@ -24,7 +24,7 @@ class OrdersController < ApplicationController
     order = Order.find_by(user_id: current_user.id, isCart: true)
     # if not, create a new order with status "isCart" true, user_id current_user.id and total null as it will be calculated later
     if order.nil?
-      order = Order.create(user_id: current_user.id, isCart: true)
+      order = Order.create(user_id: current_user.id, isCart: true, status: 0)
     end
     # create a new order_item with the order_id of the order created above and the product_id of the product found above
     begin

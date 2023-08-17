@@ -90,7 +90,8 @@ header {
 .menu {
   position: absolute;
   top: 5%;
-  left: 65%;
+  left: 59%;
+  width: auto;
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -98,6 +99,7 @@ header {
   background-color: rgb(87, 51, 0);
   border: 2px solid rgb(108, 76, 0);
   box-shadow: $shadow;
+  @include rounded-corners(5px);
   
   li {
     float: left;
@@ -120,6 +122,7 @@ header {
       
       &:hover {
         background-color: rgb(207, 169, 0);
+        @include rounded-corners(5px);
       }
     }
   }

@@ -14,13 +14,22 @@
     <li><%= link_to 'Contacts', contact_index_path %></li>
     <li><%= link_to "Sign up", signup_path %></li>
     <% if logged_in? %>
-      <li><%= link_to "Users", users_path %></li>
+      <% if current_user.admin?%>
+        <li><%= link_to "Users", view_users_path %></li>
+        <li><%= link_to "Orders", view_orders_path %></li>
+      <% else %>
+        <li><%= link_to "Users", users_path %></li>
+      <% end %>
       <li class="dropdown">
         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
           Account <b class="caret"></b>
         </button>
         <ul class="dropdown-menu">
-          <li><%= link_to "Profile", current_user %></li>
+          <% if current_user.admin?%>
+            <li><%= link_to "Profile", view_profile_path(current_user) %></li>
+          <% else %>
+            <li><%= link_to "Profile", current_user %></li>
+          <% end %>
           <li><%= link_to "Settings", edit_user_path(current_user) %></li>
           <li class="divider"></li>
           <li><%= link_to "Log out", logout_path, method: :delete %></li>
