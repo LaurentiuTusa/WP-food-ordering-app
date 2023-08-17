@@ -10,21 +10,13 @@ class OrdersController < ApplicationController
   end
 
   def add_to_cart
-    filter_params = {
-      category: params[:category],
-      vegetarian: params[:vegetarian],
-      'price-sorting': params['price-sorting'],
-      min_price: params[:min_price],
-      max_price: params[:max_price]
-    }
+    filter_params = params.permit(:category, :vegetarian, :'price-sorting', :min_price, :max_price)
 
     # find the product
     product = Product.find(params[:product_id])
-    # check if the user has an order with status "isCart" true
-    order = Order.find_by(user_id: current_user.id, isCart: true)
-    # if not, create a new order with status "isCart" true, user_id current_user.id and total null as it will be calculated later
-    if order.nil?
-      order = Order.create(user_id: current_user.id, isCart: true, status: 0)
+    # check if the user has an order with status "isCart" true, or create a new one otherwise
+    order = Order.find_or_create_by(user_id: current_user.id, isCart: true) do |new_order|
+      new_order.status = 0
     end
     # create a new order_item with the order_id of the order created above and the product_id of the product found above
     begin
@@ -36,7 +28,7 @@ class OrdersController < ApplicationController
         order_item.quantity += 1
         order_item.save
       end
-    rescue => e
+    rescue StandardError => e
       puts "Error creating OrderItem: #{e.message}"
     end
     # redirect to root_path but with the last selected filters
