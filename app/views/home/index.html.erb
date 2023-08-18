@@ -44,6 +44,7 @@
       <% end %>
 
       <% if logged_in? %>
+        <%= link_to "View Cart", view_cart_path, class: "btn btn-primary create_order_button"%>
         <%= link_to "Create Order", create_order_path, method: :post, class: "btn btn-primary create_order_button" %>
       <% end %>
     </div>

@@ -1,0 +1,14 @@
+<% provide(:title, 'All order_items') %>
+<h1>All order_items</h1>
+
+<% if flash[:alert] %>
+  <p><%= flash[:alert] %></p>
+<% end %>
+
+<%= will_paginate @order_items %>
+
+<ul class="order_items">
+  <%= render partial: 'orders/product_in_cart', collection: @order_items, as: :order_item %>
+</ul>
+
+<%= will_paginate @order_items %>

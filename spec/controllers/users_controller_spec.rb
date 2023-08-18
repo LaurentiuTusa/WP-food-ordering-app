@@ -33,6 +33,20 @@ RSpec.describe UsersController, type: :controller do
         }.not_to change(User, :count)
       end
 
+      it 'sends email activation to the user' do
+        expect {
+          post :create, params: { user: valid_attributes }
+        }.to change(ActionMailer::Base.deliveries, :count).by(1)
+      end
+
+      it 'logs in the user after it activates their account via email' do
+        post :create, params: { user: valid_attributes }
+        expect(logged_in?).to be(false)
+        user = assigns(:user)
+        get :edit, params: { id: user.activation_token, email: user.email, controller: 'account_activations' }
+        expect(logged_in?).to be(true)
+      end
+
       it 'logs in the user' do
         post :create, params: { user: valid_attributes }
         expect(logged_in?).to be(true)
@@ -63,13 +77,13 @@ RSpec.describe UsersController, type: :controller do
     end
   end
 
-  let (:user) { User.find(1) }
-  let (:other_user) { User.find(2) }
+  let (:user) { User.find_by(name: "Michael Example") }
+  let (:other_user) { User.find_by(name: "Malory Archer") }
   
   describe '#correct_user' do
     it 'redirects to root_url if current user is not the correct user' do
-      log_in(user)  # Assuming you have a log_in helper method
-      get :edit, params: { id: other_user.id }  # Replace with the actual action and parameters
+      log_in(user)
+      get :edit, params: { id: other_user.id }
 
       expect(response).to redirect_to(root_url)
     end

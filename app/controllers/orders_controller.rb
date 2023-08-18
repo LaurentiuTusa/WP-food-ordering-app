@@ -35,6 +35,36 @@ class OrdersController < ApplicationController
     redirect_to root_path(filter_params), notice: 'Product added to cart'
   end
 
+  def view_cart
+    # find the order with status "isCart" true and user_id current_user.id
+    @order = Order.find_by(user_id: current_user.id, isCart: true)
+    # if the order is nil, then redirect to root_path
+    if @order.nil?
+      redirect_to root_path, alert: 'Cart is empty'
+    else
+      # find all the order_items with order_id the id of the order found above
+      @order_items = OrderItem.where(order_id: @order.id).paginate(page: params[:page])
+      # if the order_items are empty, then redirect to root_path
+      if @order_items.empty?
+        redirect_to root_path, alert: 'Cart has been emptied'
+      end
+    end
+  end
+
+  def remove_product_from_cart
+    # Find the order item to remove
+    order_item = OrderItem.find(params[:order_item_id])
+
+    # Decrement the quantity if it's greater than 1, otherwise destroy the order item
+    if order_item.quantity > 1
+      order_item.decrement!(:quantity)
+    else
+      order_item.destroy
+    end
+
+    redirect_to view_cart_path, notice: 'Product removed from cart'
+  end
+
   def convert_cart_to_order
     # get the products form the cart
     @order_products = get_cart_products

@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe OrdersController, type: :controller do
   include SessionsHelper
 
-  let!(:user) { User.find(1) }
+  let!(:user) { User.find_by(name: "User 0") }
 
   describe 'POST #add_to_cart' do
     context 'when user is not logged in' do
