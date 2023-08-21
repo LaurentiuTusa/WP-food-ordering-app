@@ -16,7 +16,7 @@ class AdminController < ApplicationController
   end
 
   def view_products
-    @products = Product.paginate(page: params[:page])
+    @products = Product.includes(:category).paginate(page: params[:page])
   end
 
   def create_product
@@ -40,12 +40,12 @@ class AdminController < ApplicationController
   end
 
   def view_orders
-    @orders = Order.order(created_at: :desc).paginate(page: params[:page])
+    @orders = Order.order(created_at: :desc).includes(:user).paginate(page: params[:page])
   end
 
   def destroy_order
     order = Order.find(params[:id])
-    order.destroy
+    order.destroy!
     flash[:success] = "Order deleted"
     redirect_to view_orders_path
   end
@@ -67,5 +67,4 @@ class AdminController < ApplicationController
   def product_params
     params.require(:product).permit(:title, :description, :price, :vegetarian, :category_id)
   end
-
 end

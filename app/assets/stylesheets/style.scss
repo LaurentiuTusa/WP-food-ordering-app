@@ -90,7 +90,7 @@ header {
 .menu {
   position: absolute;
   top: 5%;
-  left: 59%;
+  left: 56%;
   width: auto;
   list-style-type: none;
   margin: 0;
@@ -164,7 +164,7 @@ header {
   }
       
   input[type="submit" i] {
-    width: 120px;
+    width: 100px;
     height: 30px;
     @include rounded-corners(5px);
     border: 1px solid rgb(79, 55, 0);
@@ -179,6 +179,29 @@ header {
 
     &:hover {
       background-color: rgb(207, 169, 0);
+    }
+  }
+
+  a {
+    width: 100px;
+    height: 30px;
+    @include rounded-corners(5px);
+    border: 1px solid rgb(79, 55, 0);
+    font-size: 15px;
+    font-family: 'Times New Roman', Times, serif;
+    color: rgb(0, 0, 0);
+    display: inline-block;
+    margin: 0 20px;
+    margin-left: 20px;
+    background-color: rgb(222, 200, 32);
+    display: inline-block;
+
+    &:hover {
+      background-color: rgb(191, 156, 2);
+    }
+
+    &:last-child {
+      width: 130px;
     }
   }
 }

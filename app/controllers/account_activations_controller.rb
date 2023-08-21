@@ -1,6 +1,5 @@
 class AccountActivationsController < ApplicationController
   def edit
-    byebug
     user = User.find_by(email: params[:email]) #use activatin token instead of email
     if user && !user.activated? && user.authenticated?(:activation, params[:id])
       user.activate

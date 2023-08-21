@@ -11,9 +11,7 @@ class Order < ApplicationRecord
   private
 
   def one_cart_order_per_user
-    if user.orders.exists?(isCart: true)
-      errors.add(:base, "User already has a cart order")
-    end
+    errors.add(:base, "User already has a cart order") if user.orders.exists?(isCart: true)
   end
 
   def update_cart_status_for_user
