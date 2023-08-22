@@ -1,0 +1,13 @@
+<li>
+  <strong>ID:</strong> <%= order_item.product.id %><br>
+  <strong>Title:</strong> <%= order_item.product.title %><br>
+  <strong>Description:</strong> <%= order_item.product.description %><br>
+  <strong>Vegetarian:</strong> <%= order_item.product.vegetarian %><br>
+  <strong>Category:</strong> <%= order_item.product.category.category_name %><br>
+  <strong>Price:</strong> <%= "#{order_item.product.price} $ per unit" %><br>
+  <strong>Quantity:</strong> <%= order_item.quantity %><br>
+  <strong>Total:</strong> <%= "#{order_item.product.price * order_item.quantity} $" %><br>
+
+  <%= button_to "Remove", remove_product_from_cart_path(order_item), method: :delete, data: { confirm: "Are you sure you want to remove this product?" } %>
+  <br>
+</li>

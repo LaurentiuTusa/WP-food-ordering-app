@@ -7,6 +7,9 @@
 # Ignore bundler config.
 /.bundle
 
+# Ignore byebug_history file.
+/.byebug_history
+
 # Ignore all logfiles and tempfiles.
 /log/*
 /tmp/*
@@ -29,3 +32,5 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+/node_modules
+.vscode/

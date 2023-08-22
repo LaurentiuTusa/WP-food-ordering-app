@@ -1,19 +1,46 @@
-<header>             
-    <div id="img-background"></div>  
-    <h1 id="ord-txt">Ordering food</h1>
-    <img id="logo" src="<%= image_path('logo.jpg') %>" alt="food">
-    <h3 id="logo-name">Fire delight</h3>
-    <hr>
+<header>
+  <div id="img-background"></div>  
+  <h1 id="ord-txt">Ordering food</h1>
+  <img id="logo" src="<%= image_path('logo.jpg') %>" alt="food">
+  <h3 id="logo-name">Fire delight</h3>
+  <hr>
 
-    <!-- top menu -->
-    <ul class="menu">
-        <li><%= link_to 'Home', root_path %></li>
-        <li><%= link_to 'About', 'about#index' %></li>
-        <li><%= link_to 'Service', service_path %></li>
-        <li><%= link_to 'Blog', blog_path %></li>
-        <li><%= link_to 'Contacts', contact_path %></li>
-    </ul>
-    <p id="description">
-        We eat with our eyes first, but before we see our food, we picture it while reading the menu descriptions. They say one image is worth a thousand words, but don't underestimate the power of words.
-    </p>
+  <!-- top menu -->
+  <ul class="menu">
+    <li><%= link_to 'Home', root_path %></li>
+    <li><%= link_to 'About', about_index_path %></li>
+    <li><%= link_to 'Service', service_index_path %></li>
+    <li><%= link_to 'Blog', blog_index_path %></li>
+    <li><%= link_to 'Contacts', contact_index_path %></li>
+    <li><%= link_to "Sign up", signup_path %></li>
+    <% if logged_in? %>
+      <% if current_user.admin?%>
+        <li><%= link_to "Users", view_users_path %></li>
+        <li><%= link_to "Orders", view_orders_path %></li>
+        <li><%= link_to "Products", view_products_path %></li>
+      <% else %>
+        <li><%= link_to "Users", users_path %></li>
+      <% end %>
+      <li class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+          Account <b class="caret"></b>
+        </button>
+        <ul class="dropdown-menu">
+          <% if current_user.admin?%>
+            <li><%= link_to "Profile", view_profile_path(current_user) %></li>
+          <% else %>
+            <li><%= link_to "Profile", current_user %></li>
+          <% end %>
+          <li><%= link_to "Settings", edit_user_path(current_user) %></li>
+          <li class="divider"></li>
+          <li><%= link_to "Log out", logout_path, method: :delete %></li>
+        </ul>
+      </li>
+    <% else %>
+      <li><%= link_to "Log in", login_path %></li>
+    <% end %>
+  </ul>
+  <p id="description">
+    We eat with our eyes first, but before we see our food, we picture it while reading the menu descriptions. They say one image is worth a thousand words, but don't underestimate the power of words.
+  </p>
 </header>

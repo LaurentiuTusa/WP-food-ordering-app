@@ -1,0 +1,14 @@
+<li>
+  <strong>ID:</strong> <%= order.id %><br>
+  <strong>User ID:</strong> <%= order.user_id %><br>
+  <strong>User Name:</strong> <%= order.user.name %><br>
+  <strong>Total:</strong> <%= order.total %><br>
+  <strong>Is Cart:</strong> <%= order.isCart %><br>
+  <strong>Status:</strong> <%= order.status == 'unhandled' ? content_tag(:span, order.status, class: 'text-danger') : order.status %><br>
+
+  <% if order.unhandled? %>
+    <%= button_to "Mark as Handled", mark_order_as_handled_path(order), method: :post %>
+  <% end %>
+  <%= button_to "Delete", destroy_order_path(order), method: :delete, data: { confirm: "Are you sure you want to delete this order?" } %>
+  <br>
+</li>
