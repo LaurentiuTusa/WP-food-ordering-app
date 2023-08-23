@@ -3,10 +3,12 @@ class Api::AdminController < ApplicationController
 
   def view_profile
     @user = User.find(params[:id])
+    render json: @user, serializer: UserSerializer
   end
 
   def view_users
-    @users = User.paginate(page: params[:page])
+    @users = User.all
+    render json: @users, each_serializer: UserSerializer
   end
 
   def destroy_user
@@ -16,7 +18,7 @@ class Api::AdminController < ApplicationController
   end
 
   def view_products
-    @products = Product.includes(:category).paginate(page: params[:page])
+    @products = Product.includes(:category)
     render json: @products, each_serializer: ProductSerializer
   end
 
@@ -41,7 +43,8 @@ class Api::AdminController < ApplicationController
   end
 
   def view_orders
-    @orders = Order.order(created_at: :desc).includes(:user).paginate(page: params[:page])
+    @orders = Order.order(created_at: :desc).includes(:user)
+    render json: @orders, each_serializer: OrderSerializer
   end
 
   def destroy_order

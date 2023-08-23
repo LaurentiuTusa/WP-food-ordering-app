@@ -36,4 +36,12 @@ Rails.application.routes.draw do
   post 'admin/edit_product/:id', to: 'admin#edit_product', as: :edit_product
   patch 'admin/update_product/:id', to: 'admin#update_product', as: :update_product
   delete 'admin/destroy_product/:id', to: 'admin#destroy_product', as: :destroy_product
+
+  namespace :api do
+    get 'admin/view_profile/:id', to: 'admin#view_profile', as: :view_profile
+    
+    get 'admin/view_products', to: 'admin#view_products', as: :view_products
+    get 'admin/view_orders', to: 'admin#view_orders', as: :view_orders
+    get 'admin/view_users', to: 'admin#view_users', as: :view_users
+  end
 end
