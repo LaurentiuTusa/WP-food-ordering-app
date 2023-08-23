@@ -1,13 +1,15 @@
 class Api::UsersController < ApplicationController
-  before_action :logged_in_user, only: [:index, :edit, :update, :destroy]
-  before_action :correct_user, only: [:edit, :update]
+  include ActionController::HttpAuthentication::Token
+  #before_action :logged_in_user, only: [:index, :edit, :update, :destroy]
+  #before_action :correct_user, only: [:edit, :update]
+  before_action :authenticate_user, only: [:index, :edit, :update, :destroy]
 
   def index
-    @users = User.paginate(page: params[:page])
+    @users = User.all
+    render json: @users, each_serializer: UserSerializer
   end
 
   def show
-    # pune view cu html si data cu json
     @user = User.find(params[:id])
     render json: @user, serializer: UserSerializer
   end
@@ -62,5 +64,14 @@ class Api::UsersController < ApplicationController
   def correct_user
     @user = User.find(params[:id])
     redirect_to(root_url) unless current_user?(@user)
+  end
+
+  def authenticate_user
+    token, _options = token_and_options(request)
+    user_id = AuthenticationTokenService.decode(token)
+
+    User.find(user_id)
+  rescue ActiveRecord::RecordNotFound
+    head :unauthorized
   end
 end

@@ -1,4 +1,5 @@
 class Api::AdminController < ApplicationController
+  include ActionController::HttpAuthentication::Token
   before_action :admin_user
 
   def view_profile
@@ -66,6 +67,15 @@ class Api::AdminController < ApplicationController
   # Confirms an admin user.
   def admin_user
     redirect_to(root_url) unless current_user.admin?
+  end
+
+  def current_user
+    token, _options = token_and_options(request)
+    user_id = AuthenticationTokenService.decode(token)
+
+    User.find(user_id)
+  rescue ActiveRecord::RecordNotFound
+    head :unauthorized
   end
 
   def product_params

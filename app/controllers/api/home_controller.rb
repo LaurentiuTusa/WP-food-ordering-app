@@ -10,11 +10,14 @@ class Api::HomeController < ApplicationController
     @filter_params['price-sorting'] = params['price-sorting']
     @filter_params[:min_price] = params[:min_price]
     @filter_params[:max_price] = params[:max_price]
+
+    render json: @products, each_serializer: ProductSerializer
   end
 
   def apply_filters
     product_filter_service = ProductFilterService.new(params)
     @products = product_filter_service.filter_products
-    render :index
+
+    render json: @products, each_serializer: ProductSerializer
   end
 end

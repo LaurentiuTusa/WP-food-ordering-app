@@ -38,8 +38,15 @@ Rails.application.routes.draw do
   delete 'admin/destroy_product/:id', to: 'admin#destroy_product', as: :destroy_product
 
   namespace :api do
-    get 'admin/view_profile/:id', to: 'admin#view_profile', as: :view_profile
+    resources :home, only: :index
+    get '/signup', to: 'users#new'
     
+    resources :users
+
+    get 'apply_filters', to: 'home#apply_filters', as: :apply_filters
+
+    get 'admin/view_profile/:id', to: 'admin#view_profile', as: :view_profile
+
     get 'admin/view_products', to: 'admin#view_products', as: :view_products
     get 'admin/view_orders', to: 'admin#view_orders', as: :view_orders
     get 'admin/view_users', to: 'admin#view_users', as: :view_users
