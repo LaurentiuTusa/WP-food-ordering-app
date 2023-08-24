@@ -1,4 +1,4 @@
-class Api::AccountActivationsController < ApplicationController
+class Api::AccountActivationsController < Api::ApplicationController
   def edit
     user = User.find_by(email: params[:email]) #use activatin token instead of email
     if user && !user.activated? && user.authenticated?(:activation, params[:id])

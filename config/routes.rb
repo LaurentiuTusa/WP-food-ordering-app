@@ -40,8 +40,14 @@ Rails.application.routes.draw do
   namespace :api do
     resources :home, only: :index
     get '/signup', to: 'users#new'
-    
+    post '/login', to: 'authentication#login', as: :login
+    post '/logout', to: 'authentication#logout', as: :logout
+
     resources :users
+
+    post '/add_to_cart/:product_id', to: 'orders#add_to_cart', as: :add_to_cart
+    post '/create_order', to: 'orders#convert_cart_to_order', as: :create_order
+    get '/view_cart', to: 'orders#view_cart', as: :view_cart
 
     get 'apply_filters', to: 'home#apply_filters', as: :apply_filters
 
@@ -49,6 +55,10 @@ Rails.application.routes.draw do
 
     get 'admin/view_products', to: 'admin#view_products', as: :view_products
     get 'admin/view_orders', to: 'admin#view_orders', as: :view_orders
+    post 'admin/mark_order_as_handled/:id', to: 'admin#mark_order_as_handled', as: :mark_order_as_handled
     get 'admin/view_users', to: 'admin#view_users', as: :view_users
+
+    post 'admin/edit_product/:id', to: 'admin#edit_product', as: :edit_product
+    patch 'admin/update_product/:id', to: 'admin#update_product', as: :update_product
   end
 end

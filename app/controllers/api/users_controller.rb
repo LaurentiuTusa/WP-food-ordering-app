@@ -1,8 +1,5 @@
-class Api::UsersController < ApplicationController
-  include ActionController::HttpAuthentication::Token
-  #before_action :logged_in_user, only: [:index, :edit, :update, :destroy]
-  #before_action :correct_user, only: [:edit, :update]
-  before_action :authenticate_user, only: [:index, :edit, :update, :destroy]
+class Api::UsersController < Api::ApplicationController
+  before_action :current_user, only: [:index, :edit, :update, :destroy]
 
   def index
     @users = User.all
@@ -64,14 +61,5 @@ class Api::UsersController < ApplicationController
   def correct_user
     @user = User.find(params[:id])
     redirect_to(root_url) unless current_user?(@user)
-  end
-
-  def authenticate_user
-    token, _options = token_and_options(request)
-    user_id = AuthenticationTokenService.decode(token)
-
-    User.find(user_id)
-  rescue ActiveRecord::RecordNotFound
-    head :unauthorized
   end
 end

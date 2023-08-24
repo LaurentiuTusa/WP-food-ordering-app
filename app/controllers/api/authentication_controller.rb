@@ -1,14 +1,31 @@
-class Api::AuthenticationController < ApplicationController
+class Api::AuthenticationController < Api::ApplicationController
   class AuthenticationError < StandardError; end
 
   rescue_from ActionController::ParameterMissing, with: :parameter_missing
   rescue_from AuthenticationError, with: :handle_unauthenticated
+
+  before_action :current_user, only: [:logout]
 
   def create
     raise AuthenticationError unless user.authenticate(params.require(:password))
 
     token = AuthenticationTokenService.encode(user.id)
     render json: { token: token }, status: :created
+  end
+
+  def login
+    user = User.find_by(email: params[:email].downcase)
+    if user && user.authenticate(params[:password])
+      token = AuthenticationTokenService.encode(user.id)
+
+      render json: {token: token }, status: :ok
+    else
+      render json: { error: 'unauthorized' }, status: :unauthorized
+    end
+  end
+
+  def logout
+    head :no_content
   end
 
   private

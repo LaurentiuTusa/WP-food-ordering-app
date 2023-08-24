@@ -1,4 +1,4 @@
-class Api::ContactController < ApplicationController
+class Api::ContactController < Api::ApplicationController
   def index
     respond_to do |format|
       format.html do

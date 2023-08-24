@@ -1,5 +1,4 @@
-class Api::AdminController < ApplicationController
-  include ActionController::HttpAuthentication::Token
+class Api::AdminController < Api::ApplicationController
   before_action :admin_user
 
   def view_profile
@@ -28,15 +27,15 @@ class Api::AdminController < ApplicationController
 
   def edit_product
     @product = Product.find(params[:id])
+    render json: @product, serializer: ProductSerializer
   end
 
   def update_product
     @product = Product.find(params[:id])
     if @product.update(product_params)
-      flash[:success] = "Product updated"
-      redirect_to view_products_path
+      render json: @product, serializer: ProductSerializer, status: :ok
     else
-      render 'edit_product'
+      render json: @product.errors, status: :unprocessable_entity
     end
   end
 
@@ -57,28 +56,22 @@ class Api::AdminController < ApplicationController
 
   def mark_order_as_handled
     order = Order.find(params[:id])
+    if order.nil?
+      render json: { error: 'Order not found' }, status: :not_found
+      return
+    end
     order.handled!
-    flash[:success] = "Order marked as handled"
-    redirect_to view_orders_path
+    render json: order, serializer: OrderSerializer, status: :ok
   end
 
   private
 
+  def product_params
+    params.require(:product).permit(:title, :description, :price, :vegetarian, :category_id)
+  end
+
   # Confirms an admin user.
   def admin_user
     redirect_to(root_url) unless current_user.admin?
-  end
-
-  def current_user
-    token, _options = token_and_options(request)
-    user_id = AuthenticationTokenService.decode(token)
-
-    User.find(user_id)
-  rescue ActiveRecord::RecordNotFound
-    head :unauthorized
-  end
-
-  def product_params
-    params.require(:product).permit(:title, :description, :price, :vegetarian, :category_id)
   end
 end
