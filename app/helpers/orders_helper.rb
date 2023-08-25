@@ -1,6 +1,6 @@
 module OrdersHelper
   def get_cart_products
-    @order = Order.find_by(user_id: current_user.id, isCart: true)
+    @order = Order.find_by(user_id: @current_user.id, isCart: true)
     @order_items = OrderItem.where(order_id: @order.id)
     @pruducts_from_cart = []
 

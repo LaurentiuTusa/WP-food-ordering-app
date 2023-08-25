@@ -4,7 +4,7 @@ class Api::AuthenticationController < Api::ApplicationController
   rescue_from ActionController::ParameterMissing, with: :parameter_missing
   rescue_from AuthenticationError, with: :handle_unauthenticated
 
-  before_action :current_user, only: [:logout]
+  before_action :current_authorized_user, only: [:logout]
 
   def create
     raise AuthenticationError unless user.authenticate(params.require(:password))

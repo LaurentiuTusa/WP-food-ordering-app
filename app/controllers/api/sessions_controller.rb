@@ -4,6 +4,7 @@ class Api::SessionsController < Api::ApplicationController
 
   def create
     user = User.find_by(email: params[:session][:email].downcase)
+
     if user&.authenticate(params[:session][:password])
       if user.activated?
         reset_session

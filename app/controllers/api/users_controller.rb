@@ -1,5 +1,5 @@
 class Api::UsersController < Api::ApplicationController
-  before_action :current_user, only: [:index, :edit, :update, :destroy]
+  before_action :current_authorized_user, only: [:index, :edit, :update, :destroy]
 
   def index
     @users = User.all

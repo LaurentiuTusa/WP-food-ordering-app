@@ -1,7 +1,7 @@
 require 'product_filter_service'
 
 class Api::HomeController < Api::ApplicationController
-  before_action :current_user, only: [:index]
+  before_action :current_authorized_user, only: [:index]
 
   def index
     @products = Product.all

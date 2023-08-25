@@ -2,7 +2,7 @@ class Api::ApplicationController < ActionController::API
   include ActiveStorage::SetCurrent
   include ActionController::HttpAuthentication::Token
 
-  def current_user
+  def current_authorized_user
     @current_user ||= compute_current_user
   end
 
@@ -18,6 +18,6 @@ class Api::ApplicationController < ActionController::API
   end
 
   def authenticate_user!
-    render json: { error: 'You need to log in to add products to the cart' }, status: :unauthorized if current_user.nil?
+    render json: { error: 'You need to log in to add products to the cart' }, status: :unauthorized if current_authorized_user.nil?
   end
 end

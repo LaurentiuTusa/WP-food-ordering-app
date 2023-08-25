@@ -14,9 +14,15 @@ class Api::AdminController < Api::ApplicationController
   end
 
   def destroy_user
-    User.find(params[:id]).destroy
+    user = User.find(params[:id])
 
-    render json: { success: 'User deleted' }, status: :ok
+    if user.destroy
+
+      render json: { success: 'User deleted' }, status: :ok
+      return
+    end
+
+    render json: { error: 'Error deleting user' }, status: :unprocessable_entity
   end
 
   def view_products
@@ -80,6 +86,6 @@ class Api::AdminController < Api::ApplicationController
 
   # Confirms an admin user.
   def admin_user
-    redirect_to(root_url) unless current_user.admin?
+    render json: { error: 'Unauthorized' }, status: :unauthorized unless current_authorized_user.admin?
   end
 end

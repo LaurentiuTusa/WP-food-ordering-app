@@ -4,7 +4,7 @@ class Api::OrdersController < Api::ApplicationController
 
   def add_to_cart
     product = Product.find(params[:product_id])
-    order = Order.find_or_create_by(user_id: current_user.id, isCart: true) do |new_order|
+    order = Order.find_or_create_by(user_id: @current_user.id, isCart: true) do |new_order|
       new_order.status = 0
     end
 
@@ -25,7 +25,7 @@ class Api::OrdersController < Api::ApplicationController
   end
 
   def view_cart
-    @order = Order.find_by(user_id: current_user.id, isCart: true)
+    @order = Order.find_by(user_id: @current_user.id, isCart: true)
     if @order.nil?
 
       render json: { error: 'Cart is empty' }, status: :unprocessable_entity
@@ -51,7 +51,7 @@ class Api::OrdersController < Api::ApplicationController
 
   def convert_cart_to_order
     @order_products = get_cart_products
-    @order = Order.find_by(user_id: current_user.id, isCart: true)
+    @order = Order.find_by(user_id: @current_user.id, isCart: true)
     @order.isCart = false
     @order.total = @order_products.sum { |product| product.price }
     if @order.save
