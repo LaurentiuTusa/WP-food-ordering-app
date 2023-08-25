@@ -6,24 +6,25 @@ class Api::SessionsController < Api::ApplicationController
     user = User.find_by(email: params[:session][:email].downcase)
     if user&.authenticate(params[:session][:password])
       if user.activated?
-        forwarding_url = session[:forwarding_url]
         reset_session
         log_in user
         params[:session][:remember_me] == '1' ? remember(user) : forget(user)
         if current_user.admin?
-          redirect_to view_profile_path(current_user)
+
+          render json: current_user, serializer: UserSerializer, status: :ok
         else
-          redirect_to forwarding_url || user
+
+          render json: current_user, serializer: UserSerializer, status: :ok
         end
       else
         message = "Account not activated. "
         message += "Check your email for the activation link."
-        flash[:warning] = message
-        redirect_to root_url
+
+        render json: { error: message }, status: :unprocessable_entity
       end
     else
-      flash.now[:danger] = 'Invalid email/password combination'
-      render 'new'
+
+      render json: { error: 'Invalid email/password combination' }, status: :unprocessable_entity
     end
   end
 

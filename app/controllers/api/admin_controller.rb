@@ -3,22 +3,25 @@ class Api::AdminController < Api::ApplicationController
 
   def view_profile
     @user = User.find(params[:id])
+
     render json: @user, serializer: UserSerializer
   end
 
   def view_users
     @users = User.all
+
     render json: @users, each_serializer: UserSerializer
   end
 
   def destroy_user
     User.find(params[:id]).destroy
-    flash[:success] = "User deleted"
-    redirect_to view_users_path
+
+    render json: { success: 'User deleted' }, status: :ok
   end
 
   def view_products
     @products = Product.includes(:category)
+
     render json: @products, each_serializer: ProductSerializer
   end
 
@@ -27,14 +30,17 @@ class Api::AdminController < Api::ApplicationController
 
   def edit_product
     @product = Product.find(params[:id])
+
     render json: @product, serializer: ProductSerializer
   end
 
   def update_product
     @product = Product.find(params[:id])
     if @product.update(product_params)
+
       render json: @product, serializer: ProductSerializer, status: :ok
     else
+
       render json: @product.errors, status: :unprocessable_entity
     end
   end
@@ -44,23 +50,25 @@ class Api::AdminController < Api::ApplicationController
 
   def view_orders
     @orders = Order.order(created_at: :desc).includes(:user)
+
     render json: @orders, each_serializer: OrderSerializer
   end
 
   def destroy_order
     order = Order.find(params[:id])
     order.destroy!
-    flash[:success] = "Order deleted"
-    redirect_to view_orders_path
+    render json: { success: 'Order deleted' }, status: :ok
   end
 
   def mark_order_as_handled
     order = Order.find(params[:id])
     if order.nil?
+
       render json: { error: 'Order not found' }, status: :not_found
       return
     end
     order.handled!
+
     render json: order, serializer: OrderSerializer, status: :ok
   end
 

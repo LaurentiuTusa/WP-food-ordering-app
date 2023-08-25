@@ -45,8 +45,6 @@ gem "bootsnap", require: false
 #Use Sass to process CSS
 gem "sassc-rails"
 
-gem 'faker'
-
 gem 'will_paginate', '3.3.0'
 gem 'bootstrap-will_paginate', '1.0.0'
 
@@ -84,4 +82,7 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem "webdrivers"
+
+  gem 'factory_bot_rails'
+  gem 'faker'
 end

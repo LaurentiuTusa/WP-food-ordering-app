@@ -17,6 +17,7 @@ class Api::OrdersController < Api::ApplicationController
         order_item.save
       end
     rescue StandardError => e
+
       render json: { error: "Error creating OrderItem: #{e.message}" }, status: :unprocessable_entity
     end
 
@@ -26,10 +27,13 @@ class Api::OrdersController < Api::ApplicationController
   def view_cart
     @order = Order.find_by(user_id: current_user.id, isCart: true)
     if @order.nil?
-      redirect_to root_path, alert: 'Cart is empty'
+
+      render json: { error: 'Cart is empty' }, status: :unprocessable_entity
     else
       @order_items = OrderItem.includes(:product).where(order_id: @order.id)
-      redirect_to root_path, alert: 'Cart has been emptied' if @order_items.empty?
+
+      render json: { error: 'Cart is empty' }, status: :unprocessable_entity if @order_items.empty?
+
       render json: @order_items, each_serializer: OrderItemSerializer
     end
   end
@@ -42,7 +46,7 @@ class Api::OrdersController < Api::ApplicationController
       order_item.destroy
     end
 
-    redirect_to view_cart_path, notice: 'Product removed from cart'
+    render json: { success: 'Product removed from cart' }, status: :ok
   end
 
   def convert_cart_to_order
@@ -51,15 +55,11 @@ class Api::OrdersController < Api::ApplicationController
     @order.isCart = false
     @order.total = @order_products.sum { |product| product.price }
     if @order.save
+
       render json: @order, serializer: OrderSerializer, status: :ok
     else
+
       render json: { error: 'Unable to convert cart to order' }, status: :unprocessable_entity
     end
-  end
-
-  private
-
-  def authenticate_user!
-    redirect_to login_path, alert: 'You need to log in to add products to the cart' if current_user.nil?
   end
 end

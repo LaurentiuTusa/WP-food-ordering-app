@@ -4,11 +4,9 @@ class Api::AccountActivationsController < Api::ApplicationController
     if user && !user.activated? && user.authenticated?(:activation, params[:id])
       user.activate
       log_in user
-      flash[:success] = "Account activated!"
-      redirect_to user
+      render json: { success: 'Account activated' }, status: :ok
     else
-      flash[:danger] = "Invalid activation link"
-      redirect_to root_url
+      render json: { error: 'Invalid activation link' }, status: :unprocessable_entity
     end
   end
 end
