@@ -1,0 +1,10 @@
+<% provide(:title, 'All orders') %>
+<h1>All orders</h1>
+
+<%= will_paginate @orders %>
+
+<ul class="orders">
+  <%= render partial: 'admin/order', collection: @orders %>
+</ul>
+
+<%= will_paginate @orders %>
